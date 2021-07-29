@@ -1,0 +1,13 @@
+amazon:
+  dynamodb:
+    endpoint: http://localhost:8000/
+  aws:
+    accesskey: access key
+    secretkey: access key secret
+spring:
+  data:
+    dynamodb:
+      entity2ddl:
+        auto: create-only
+server:
+  port : 8081

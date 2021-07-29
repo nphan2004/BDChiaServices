@@ -1,0 +1,15 @@
+amazon:
+  dynamodb:
+    endpoint: Dynamodb End Point
+  aws:
+    accesskey: Your Access Key
+    secretkey: Your Secret Key
+server:
+  port : 443
+  ssl:
+   key-alias: certificate alias
+   key-password: your key password
+   key-store: classpath:identity.p12
+   key-store-password: your keystore password
+   key-store-provider: SUN
+   key-store-type: JKS
