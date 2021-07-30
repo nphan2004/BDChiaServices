@@ -37,5 +37,4 @@ public class WalletTrackingRPC implements IWalletTrackingRPC {
 		WalletTransactions wt = gson.fromJson(new InputStreamReader(pb.start().getInputStream()), WalletTransactions.class);
 		return wt;
 	}
-
 }
