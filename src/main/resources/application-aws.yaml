@@ -13,3 +13,9 @@ server:
    key-store-password: your keystore password
    key-store-provider: SUN
    key-store-type: JKS
+curl:
+  path: /usr/bin/curl
+  certificate: /home/ubuntu/.chia/mainnet/config/ssl/wallet/private_wallet.crt
+  key: /home/ubuntu/.chia/mainnet/config/ssl/wallet/private_wallet.key
+  url: https://172.31.12.180:9256/get_transactions
+  data: '{"wallet_id" : 1}'  

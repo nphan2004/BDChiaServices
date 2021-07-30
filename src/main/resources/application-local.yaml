@@ -11,3 +11,10 @@ spring:
         auto: create-only
 server:
   port : 8081
+curl:
+  path: D:\Tools\curl-7.78.0-win64-mingw\bin\curl.exe
+  certificate: C:\Users\nhat\.chia\mainnet\config\ssl\ui\boston-pool-node\wallet\private_wallet.crt
+  key: C:\Users\nhat\.chia\mainnet\config\ssl\ui\boston-pool-node\wallet\private_wallet.key
+  url: https://192.168.99.9:9256/get_transactions
+  data: > 
+    "{\"wallet_id\" : 1}"
