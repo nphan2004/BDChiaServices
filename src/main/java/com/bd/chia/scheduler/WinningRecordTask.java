@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import com.bd.chia.jpa.WinningRecord;
 import com.bd.chia.repository.WinningRecordRepository;
 import com.bd.chia.services.IWalletTrackingRPC;
 
+@Profile("enableSchedule")
 @Component
 public class WinningRecordTask {
 	private static final Logger log = LoggerFactory.getLogger(WinningRecordTask.class);
@@ -23,8 +25,8 @@ public class WinningRecordTask {
 	
 	@Autowired
 	IWalletTrackingRPC rpc;
-	
-	@Scheduled(fixedDelay=300000, initialDelay=5000)
+		
+	@Scheduled(fixedDelay=300000, initialDelay=1000)
 	public void updateWinningData() {
 		try {			
 			WalletTransactions wt = rpc.getWalletTransactions();
