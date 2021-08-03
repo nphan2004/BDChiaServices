@@ -2,12 +2,10 @@ package com.bd.chia.repository;
 
 import java.util.List;
 
-import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bd.chia.jpa.WinningRecord;
 
-@EnableScan
-public interface WinningRecordRepository extends CrudRepository<WinningRecord, Long> {
-	List<WinningRecord> findAll();
+public interface WinningRecordRepository extends MongoRepository<WinningRecord, Long> {
+	List<WinningRecord> findAllByType(Integer type);
 }

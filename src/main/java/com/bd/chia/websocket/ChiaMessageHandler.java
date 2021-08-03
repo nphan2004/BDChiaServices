@@ -7,7 +7,7 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 
-public class ChiaMessageHandler { // extends StompSessionHandlerAdapter {
+public class ChiaMessageHandler { //extends StompSessionHandlerAdapter {
 
 //	@Override
 //	public Type getPayloadType(StompHeaders headers) {

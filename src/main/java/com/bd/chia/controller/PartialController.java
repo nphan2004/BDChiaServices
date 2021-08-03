@@ -21,6 +21,6 @@ public class PartialController {
 	@RequestMapping(value="/{launcherId}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Partial> getPartials(@PathVariable String launcherId) {
-		return partialRepository.findByLauncherId(launcherId);
+		return partialRepository.findByLauncherIdOrderByTimestampDesc(launcherId);
 	}
 }

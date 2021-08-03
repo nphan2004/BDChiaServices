@@ -40,6 +40,7 @@
 </dependency>
 -->
 		<!-- Start DynamoDB -->
+		<!-- 
 	    <dependency>
 	        <groupId>com.amazonaws</groupId>
 	        <artifactId>aws-java-sdk-dynamodb</artifactId>
@@ -52,8 +53,14 @@
 	        <artifactId>spring-data-dynamodb</artifactId>
 	        <version>5.2.1</version>
 	    </dependency>
-	    
+	    -->
     	<!-- End DynamoDB -->
+	   <dependency>
+	       <groupId>org.springframework.boot</groupId>
+	       <artifactId>spring-boot-starter-data-mongodb</artifactId>
+	       <scope>provided</scope>
+	   </dependency>
+       	
 		<!-- https://mvnrepository.com/artifact/net.sf.supercsv/super-csv -->
 		<dependency>
 		    <groupId>net.sf.supercsv</groupId>

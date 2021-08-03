@@ -1,11 +1,12 @@
 package com.bd.chia.repository;
 
-import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bd.chia.jpa.Partial;
 
-@EnableScan
-public interface PartialRepository extends CrudRepository<Partial, Partial.PrimaryKey>, PartialRepositoryCustom {
 
+public interface PartialRepository extends MongoRepository<Partial, String>, PartialRepositoryCustom {
+	List<Partial> findByLauncherIdOrderByTimestampDesc(String launcherId);
 }

@@ -16,7 +16,6 @@ import org.supercsv.io.ICsvMapReader;
 import org.supercsv.prefs.CsvPreference;
 
 import com.bd.chia.jpa.Partial;
-import com.bd.chia.jpa.Partial.PrimaryKey;
 import com.bd.chia.repository.PartialRepository;
 
 @Component
@@ -34,6 +33,7 @@ public class PartialDataImport {
 		return processors;
 	}
 	
+	//@PostConstruct
 	public void importData() throws Exception {
 		ICsvMapReader mapReader = new CsvMapReader(new FileReader("C:\\Users\\nhat\\Downloads\\partial.csv"), CsvPreference.STANDARD_PREFERENCE);
 		final String[] headers = mapReader.getHeader(true);
@@ -42,7 +42,7 @@ public class PartialDataImport {
 		Map<String, Object> partialMap;
 		while( (partialMap = mapReader.read(headers, processors)) != null) {
 			Partial partial = new Partial();
-			partial.setLauncher_id((String)partialMap.get("launcher_id (S)"));
+			partial.setLauncherId((String)partialMap.get("launcher_id (S)"));
 			partial.setTimestamp((Long)partialMap.get("timestamp (N)"));
 			partial.setDifficulty((Integer) partialMap.get("difficulty (N)"));
 						

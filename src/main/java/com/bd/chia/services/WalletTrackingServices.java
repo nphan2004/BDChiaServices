@@ -38,8 +38,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 
-@Component
+//@Component
 public class WalletTrackingServices {
+/*
 	private static final Logger log = LoggerFactory.getLogger(WalletTrackingServices.class);
 	private static final int CONNECT_TIME_OUT = 10;
 	
@@ -215,4 +216,5 @@ public class WalletTrackingServices {
 //		String data = restTemplate.postForObject("https://localhost:9256/get_transactions", "{\"wallet_id\": 1}", String.class);
 //		System.out.println("Update Winning Data : " + data);
 //	}
+ * */
 }

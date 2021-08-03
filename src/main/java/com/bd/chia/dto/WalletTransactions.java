@@ -1,38 +1,79 @@
 package com.bd.chia.dto;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 public class WalletTransactions {
+	public static class AnAddition {
+		private Long amount;
+		
+		@SerializedName(value = "parent_coin_info")
+		private String parentCoinInfo;
+		
+		@SerializedName(value = "puzzle_hash")
+		private String puzzleHash;
+		public Long getAmount() {
+			return amount;
+		}
+		public void setAmount(Long amount) {
+			this.amount = amount;
+		}
+		public String getParentCoinInfo() {
+			return parentCoinInfo;
+		}
+		public void setParentCoinInfo(String parentCoinInfo) {
+			this.parentCoinInfo = parentCoinInfo;
+		}
+		public String getPuzzleHash() {
+			return puzzleHash;
+		}
+		public void setPuzzleHash(String puzzleHash) {
+			this.puzzleHash = puzzleHash;
+		}
+		@Override
+		public String toString() {
+			return "AnAddition [amount=" + amount + ", parentCoinInfo=" + parentCoinInfo + ", puzzleHash=" + puzzleHash
+					+ "]";
+		}
+	}
 	
-//    private static class Adapter<T> extends TypeAdapter<T> {
-//        private final TypeAdapter<T> defaultAdapter;
-//
-//        Adapter(TypeAdapter<T> defaultAdapter) {
-//            this.defaultAdapter = defaultAdapter;
-//        }
-//
-//        @Override
-//        public void write(JsonWriter out, T value) throws IOException {
-//        }
-//
-//        @Override
-//        public T read(JsonReader in) throws IOException {
-//            Long l = (Long) defaultAdapter.read(in);
-//            
-//            return (T) new Date(l*1000);
-//        }
-//    }
-//    
-//	public static class LongToDateConverter implements TypeAdapterFactory {
-//		@Override
-//		public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {			
-//			TypeAdapter defaultAdapter = gson.getAdapter(Long.class);
-//			return new Adapter(defaultAdapter);
-//		}		
-//	}
+    private static class Adapter<T> extends TypeAdapter<T> {
+        private final TypeAdapter<T> defaultAdapter;
+
+        Adapter(TypeAdapter<T> defaultAdapter) {
+            this.defaultAdapter = defaultAdapter;
+        }
+
+        @Override
+        public void write(JsonWriter out, T value) throws IOException {
+        }
+
+        @Override
+        public T read(JsonReader in) throws IOException {
+            Long l = (Long) defaultAdapter.read(in);
+            
+            return (T) new Date(l*1000);
+        }
+    }
+    
+	public static class LongToDateConverter implements TypeAdapterFactory {
+		@Override
+		public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {			
+			TypeAdapter defaultAdapter = gson.getAdapter(Long.class);
+			return new Adapter(defaultAdapter);
+		}		
+	}
 	
 	public static class AWalletTransaction {
 		private Long amount;
@@ -42,8 +83,8 @@ public class WalletTransactions {
 		private Long confirmedAtHeight;
 		
 		@SerializedName("created_at_time")
-		//@JsonAdapter(LongToDateConverter.class)
-		private Long createdAt;
+		@JsonAdapter(LongToDateConverter.class)
+		private Date createdAt;
 		
 		@SerializedName("fee_amount")
 		private Long feeAmount;
@@ -58,6 +99,8 @@ public class WalletTransactions {
 		@SerializedName("wallet_id")
 		private Integer walletId;
 
+		private List<AnAddition> additions;
+		
 		public Long getAmount() {
 			return amount;
 		}
@@ -82,11 +125,11 @@ public class WalletTransactions {
 			this.confirmedAtHeight = confirmedAtHeight;
 		}
 
-		public Long getCreatedAt() {
+		public Date getCreatedAt() {
 			return createdAt;
 		}
 
-		public void setCreatedAt(Long createdAt) {
+		public void setCreatedAt(Date createdAt) {
 			this.createdAt = createdAt;
 		}
 
@@ -130,11 +173,20 @@ public class WalletTransactions {
 			this.walletId = walletId;
 		}
 
+		public List<AnAddition> getAdditions() {
+			return additions;
+		}
+
+		public void setAdditions(List<AnAddition> additions) {
+			this.additions = additions;
+		}
+
 		@Override
 		public String toString() {
 			return "AWalletTransaction [amount=" + amount + ", confirmed=" + confirmed + ", confirmedAtHeight="
 					+ confirmedAtHeight + ", createdAt=" + createdAt + ", feeAmount=" + feeAmount + ", name=" + name
-					+ ", toAddress=" + toAddress + ", type=" + type + ", walletId=" + walletId + "]";
+					+ ", toAddress=" + toAddress + ", type=" + type + ", walletId=" + walletId + ", additions="
+					+ additions + "]";
 		}
 	}
 	

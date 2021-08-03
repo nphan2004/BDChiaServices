@@ -1,13 +1,14 @@
 package com.bd.chia.jpa;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@DynamoDBTable(tableName = "farmer")
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Document
 public class Farmer {
-	@DynamoDBHashKey
-	@DynamoDBAttribute(attributeName = "launcher_id")
+	@Id
 	private String launcherId;
 	
 	private Long delay_time;
@@ -20,7 +21,9 @@ public class Farmer {
 
 	private String p2_singleton_puzzle_hash;
 	
-	private String payout_instructions;
+	@Indexed
+	@JsonProperty(value = "payout_instructions")
+	private String payoutInstructions;
 	
 	public String getLauncherId() {
 		return launcherId;
@@ -70,11 +73,11 @@ public class Farmer {
 		this.p2_singleton_puzzle_hash = p2_singleton_puzzle_hash;
 	}
 
-	public String getPayout_instructions() {
-		return payout_instructions;
+	public String getPayoutInstructions() {
+		return payoutInstructions;
 	}
 
-	public void setPayout_instructions(String payout_instructions) {
-		this.payout_instructions = payout_instructions;
+	public void setPayoutInstructions(String payoutInstructions) {
+		this.payoutInstructions = payoutInstructions;
 	}
 }

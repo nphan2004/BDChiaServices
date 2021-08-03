@@ -3,6 +3,8 @@ package com.bd.chia.utils;
 import java.io.FileReader;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.supercsv.cellprocessor.ParseBool;
@@ -40,6 +42,7 @@ public class FarmerDataImport {
 		return processors;
 	}
 	
+	//@PostConstruct
 	public void importData() throws Exception {
 		ICsvMapReader mapReader = new CsvMapReader(new FileReader("C:\\Users\\nhat\\Downloads\\farmer.csv"), CsvPreference.STANDARD_PREFERENCE);
 		final String[] headers = mapReader.getHeader(true);
@@ -53,7 +56,7 @@ public class FarmerDataImport {
 			farmer.setDifficulty((Integer) partialMap.get("difficulty (N)"));
 			farmer.setIs_pool_member((Boolean)partialMap.get("is_pool_member (N)"));
 			farmer.setP2_singleton_puzzle_hash((String)partialMap.get("p2_singleton_puzzle_hash (S)"));
-			farmer.setPayout_instructions((String)partialMap.get("payout_instructions (S)"));
+			farmer.setPayoutInstructions((String)partialMap.get("payout_instructions (S)"));
 			farmer.setPoints((Integer) partialMap.get("points (N)"));
 			farmerRepository.save(farmer);
 		}

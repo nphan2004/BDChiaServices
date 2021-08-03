@@ -18,6 +18,6 @@ public class WalletController {
 	
 	@GetMapping(path = "/winning")
 	public List<WinningRecord> getChiaWinning() {
-		return winningRecordRepository.findAll();
+		return winningRecordRepository.findAllByType(WinningRecord.INCOMING);
 	}
 }

@@ -1,16 +1,21 @@
 package com.bd.chia.jpa;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import java.util.Date;
 
-@DynamoDBTable(tableName = "winning_record")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class WinningRecord {
+	public static final Integer INCOMING = 0;
+	
 	private Long amount;
 	private Boolean confirmed;
 	
+	@Id
 	private Long confirmedAtHeight;
 	
-	private Long createdAt;
+	private Date createdAt;
 	
 	private Long feeAmount;
 	
@@ -38,7 +43,6 @@ public class WinningRecord {
 		this.confirmed = confirmed;
 	}
 
-	@DynamoDBHashKey
 	public Long getConfirmedAtHeight() {
 		return confirmedAtHeight;
 	}
@@ -47,11 +51,11 @@ public class WinningRecord {
 		this.confirmedAtHeight = confirmedAtHeight;
 	}
 
-	public Long getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Long createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
