@@ -1,9 +1,15 @@
 server:
   port : 80
-
 curl:
   path: /usr/bin/curl
+get_transactions:
   certificate: /home/ubuntu/.chia/mainnet/config/ssl/wallet/private_wallet.crt
   key: /home/ubuntu/.chia/mainnet/config/ssl/wallet/private_wallet.key
   url: https://172.31.12.180:9256/get_transactions
-  data: '{"wallet_id" : 1}'  
+  data: '{"wallet_id" : 1}'
+get_blockchain_state:
+  certificate: /home/ubuntu/.chia/mainnet/config/ssl/full_node/private_full_node.crt
+  key: /home/ubuntu/.chia/mainnet/config/ssl/full_node/private_full_node.key
+  url: https://172.31.12.180:8555/get_blockchain_state
+  data: > 
+    "{}"  

@@ -36,7 +36,10 @@
 		additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
-		
+	<logger name="org.springframework.data.mongodb.core.MongoTemplate" level="debug"
+		additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
 	<logger name="com.bd.client.processors.ConsoleLogger" level="info"
 		additivity="false">
 		<appender-ref ref="STDOUT" />

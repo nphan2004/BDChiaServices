@@ -2,8 +2,15 @@ server:
   port : 8081
 curl:
   path: D:\Tools\curl-7.78.0-win64-mingw\bin\curl.exe
+get_transactions:
   certificate: C:\Users\nhat\.chia\mainnet\config\ssl\ui\boston-pool-node\wallet\private_wallet.crt
   key: C:\Users\nhat\.chia\mainnet\config\ssl\ui\boston-pool-node\wallet\private_wallet.key
   url: https://192.168.99.9:9256/get_transactions
   data: > 
     "{\"wallet_id\" : 1}"
+get_blockchain_state:
+  certificate: C:\Users\nhat\.chia\mainnet\config\ssl\ui\boston-pool-node\full_node\private_full_node.crt
+  key: C:\Users\nhat\.chia\mainnet\config\ssl\ui\boston-pool-node\full_node\private_full_node.key
+  url: https://192.168.99.9:8555/get_blockchain_state
+  data: > 
+    "{}"

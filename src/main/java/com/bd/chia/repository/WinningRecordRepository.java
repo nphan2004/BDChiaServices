@@ -8,4 +8,5 @@ import com.bd.chia.jpa.WinningRecord;
 
 public interface WinningRecordRepository extends MongoRepository<WinningRecord, Long> {
 	List<WinningRecord> findAllByType(Integer type);
+	int countByType(Integer type);
 }

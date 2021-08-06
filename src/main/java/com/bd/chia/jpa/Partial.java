@@ -1,13 +1,22 @@
 package com.bd.chia.jpa;
 
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
+@CompoundIndexes({
+	@CompoundIndex(def = "{'launcherId':1, 'timestamp':-1}", name = "launcherId_timestamp")
+})
 public class Partial extends AutoId {
 	@Indexed
+	@Field(value = "launcher_id")
 	private String launcherId;
+	
 	private Long timestamp;
+	
     private Integer difficulty;
     
 	public String getLauncherId() {

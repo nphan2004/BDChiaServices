@@ -50,8 +50,8 @@ public class FarmerRepositoryImpl implements FarmerRepositoryCustom {
 	@Override
 	public List<FarmerStats> getLeaderBoard() {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("is_pool_member").is(true));
-		query.with(Sort.by(Direction.DESC, "difficulty"));
+		query.addCriteria(Criteria.where("is_pool_member").is(1));
+		query.with(Sort.by(Direction.DESC, "points"));
 		query.limit(100);
 		
 		List<Farmer> farmers = mongoTemplate.find(query, Farmer.class);

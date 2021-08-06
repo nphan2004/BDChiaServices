@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bd.chia.jpa.FarmStats;
 import com.bd.chia.jpa.Farmer;
 import com.bd.chia.jpa.Payout;
+import com.bd.chia.repository.FarmStatsRepository;
 import com.bd.chia.repository.FarmerRepository;
 import com.bd.chia.repository.FarmerRepositoryImpl.FarmerStats;
 import com.bd.chia.repository.PayoutRepository;
@@ -25,16 +27,15 @@ public class FarmerController {
 	@Autowired
 	PayoutRepository payoutRepository;
 	
+	@Autowired
+	FarmStatsRepository farmStatsRepository;
+	
 	@GetMapping(value="/{launcherId}")
 	@ResponseBody
 	public Farmer getFarmer(@PathVariable String launcherId) {
 		
-		Optional<Farmer> o =  farmerRepository.findById(launcherId);
-		if(o.isPresent()) {
-			return o.get();
-		}
-		
-		return null;
+		Farmer farmer =  farmerRepository.findByLauncherId(launcherId);
+		return farmer;
 	}
 	
 	@GetMapping(value="/leaderboard")
@@ -47,5 +48,17 @@ public class FarmerController {
 	@ResponseBody
 	public List<Payout> getPayout(@PathVariable String launcherId) {
 				return payoutRepository.findByLauncherIdOrderByConfirmedAtHeightDesc(launcherId);
+	}
+	
+	@GetMapping(value="/stats/{launcherId}")
+	@ResponseBody
+	public FarmStats getFarmStats(@PathVariable String launcherId) {
+		
+		Optional<FarmStats> ostats =  farmStatsRepository.findById(launcherId);
+		if(ostats.isPresent()) {
+			return ostats.get();
+		}
+		
+		return null;
 	}	
 }

@@ -9,29 +9,29 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.bd.chia.dto.WalletTransactions;
+import com.bd.chia.dto.NodeInfo;
 import com.google.gson.Gson;
 
 @Component
-public class WalletTrackingRPC {
+public class NodeRPC {
 	private static final Logger log = LoggerFactory.getLogger(WalletTrackingRPC.class);
 	
     @Value("${curl.path}")
     private String curlExecutable;
     
-    @Value("${get_transactions.certificate}")
+    @Value("${get_blockchain_state.certificate}")
     private String certificate;
     
-    @Value("${get_transactions.key}")
+    @Value("${get_blockchain_state.key}")
     private String key;
     
-    @Value("${get_transactions.url}")
+    @Value("${get_blockchain_state.url}")
     private String url;
     
-    @Value("${get_transactions.data}")
+    @Value("${get_blockchain_state.data}")
     private String data;
     
-	public WalletTransactions getWalletTransactions() throws Exception {
+	public NodeInfo getBlockChainState() throws Exception {
 		List<String> args = new ArrayList<String>();
 		args.add(curlExecutable);
 		args.add("--verbose");
@@ -51,9 +51,9 @@ public class WalletTrackingRPC {
 		ProcessBuilder pb = new ProcessBuilder(args);
 		
 		Gson gson = new Gson();
-				
-		WalletTransactions wt = gson.fromJson(new InputStreamReader(pb.start().getInputStream()), WalletTransactions.class);
+		
+		NodeInfo nodeInfo = gson.fromJson(new InputStreamReader(pb.start().getInputStream()), NodeInfo.class);
 
-		return wt;
+		return nodeInfo;
 	}
 }

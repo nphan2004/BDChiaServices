@@ -3,28 +3,43 @@ package com.bd.chia.jpa;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
 public class Farmer {
 	@Id
+	private String id;
+	
+	@Field(value = "launcher_id")
+	@Indexed
 	private String launcherId;
 	
-	private Long delay_time;
+	@Field(value = "delay_time")
+	private Long delayTime;
 	
-	private Boolean is_pool_member;
+	@Field(value = "is_pool_member")
+	private Integer poolMember;
 	
 	private Integer points;
 	
 	private Integer difficulty;
 
-	private String p2_singleton_puzzle_hash;
+	@Field(value = "p2_singleton_puzzle_hash")
+	private String p2SingletonPuzzleHash;
 	
 	@Indexed
-	@JsonProperty(value = "payout_instructions")
+	@Field(value = "payout_instructions")
 	private String payoutInstructions;
 	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getLauncherId() {
 		return launcherId;
 	}
@@ -33,20 +48,28 @@ public class Farmer {
 		this.launcherId = launcherId;
 	}
 
-	public Long getDelay_time() {
-		return delay_time;
+	public Long getDelayTime() {
+		return delayTime;
 	}
 
-	public void setDelay_time(Long delay_time) {
-		this.delay_time = delay_time;
+	public void setDelayTime(Long delayTime) {
+		this.delayTime = delayTime;
 	}
 
-	public Boolean getIs_pool_member() {
-		return is_pool_member;
+	public Integer getPoolMember() {
+		return poolMember;
 	}
 
-	public void setIs_pool_member(Boolean is_pool_member) {
-		this.is_pool_member = is_pool_member;
+	public void setPoolMember(Integer poolMember) {
+		this.poolMember = poolMember;
+	}
+
+	public String getP2SingletonPuzzleHash() {
+		return p2SingletonPuzzleHash;
+	}
+
+	public void setP2SingletonPuzzleHash(String p2SingletonPuzzleHash) {
+		this.p2SingletonPuzzleHash = p2SingletonPuzzleHash;
 	}
 
 	public Integer getPoints() {
@@ -63,14 +86,6 @@ public class Farmer {
 
 	public void setDifficulty(Integer difficulty) {
 		this.difficulty = difficulty;
-	}
-
-	public String getP2_singleton_puzzle_hash() {
-		return p2_singleton_puzzle_hash;
-	}
-
-	public void setP2_singleton_puzzle_hash(String p2_singleton_puzzle_hash) {
-		this.p2_singleton_puzzle_hash = p2_singleton_puzzle_hash;
 	}
 
 	public String getPayoutInstructions() {
