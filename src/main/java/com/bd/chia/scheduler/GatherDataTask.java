@@ -22,6 +22,7 @@ import com.bd.chia.jpa.FarmStats;
 import com.bd.chia.jpa.Farmer;
 import com.bd.chia.jpa.Payout;
 import com.bd.chia.jpa.PoolInformation;
+import com.bd.chia.jpa.PoolInformation.PoolSpaceTime;
 import com.bd.chia.jpa.WinningRecord;
 import com.bd.chia.repository.FarmStatsRepository;
 import com.bd.chia.repository.FarmerRepository;
@@ -30,6 +31,7 @@ import com.bd.chia.repository.PayoutRepository;
 import com.bd.chia.repository.PoolInformationRepository;
 import com.bd.chia.repository.WinningRecordRepository;
 import com.bd.chia.services.NodeRPC;
+import com.bd.chia.services.TelegramBotService;
 import com.bd.chia.services.WalletTrackingRPC;
 import com.bd.chia.utils.Constants;
 
@@ -65,7 +67,12 @@ public class GatherDataTask {
 	@Autowired
 	NodeRPC nodeRPC;
 	
-	private final void addWinningRecord(AWalletTransaction tx) {
+	@Autowired
+	TelegramBotService telegramBotService;
+	
+	private final boolean addWinningRecord(AWalletTransaction tx) {
+		boolean newWinning = false;
+		
 		synchronized(alreadyProcessed) {
 			if(!alreadyProcessed.containsKey(tx.getConfirmedAtHeight())) {
 				Optional<WinningRecord> oTx = winningRecordRepository.findById(tx.getConfirmedAtHeight());
@@ -81,21 +88,25 @@ public class GatherDataTask {
 					record.setType(tx.getType());
 					
 					winningRecordRepository.save(record);
+					newWinning = true;
 				}
 				
 				alreadyProcessed.put(tx.getConfirmedAtHeight(), Boolean.TRUE);
 			}
-		}		
+		}
+		
+		return newWinning;
 	}
 	
 	private final void addPayoutRecord(AWalletTransaction tx) {
 		synchronized(alreadyProcessed) {
 			if(!alreadyProcessed.containsKey(tx.getConfirmedAtHeight())) {
 				for(AnAddition a : tx.getAdditions()) {
-					Farmer farmer = farmerRepository.findByPayoutInstructions(a.getPuzzleHash().substring(2)); //skip 0x
-					if(farmer==null) {
+					List<Farmer> farmers = farmerRepository.findByPayoutInstructions(a.getPuzzleHash().substring(2)); //skip 0x
+					if(farmers==null || farmers.isEmpty()) {
 						continue; //no farmer found.
 					}
+					Farmer farmer = farmers.get(0);
 					Payout payout = payoutRepository.findByLauncherIdAndConfirmedAtHeight(farmer.getLauncherId(), tx.getConfirmedAtHeight());
 					if(payout==null) {
 						payout = new Payout();
@@ -120,14 +131,20 @@ public class GatherDataTask {
 		try {			
 			WalletTransactions wt = rpc.getWalletTransactions();
 			if(wt!=null) {
+				int winningCount = 0;
 				for(AWalletTransaction tx : wt.getTransactions()) {
 					Integer txType = tx.getType();
 					
 					if(txType==INCOMING_TX) {
-						addWinningRecord(tx);
+						if(addWinningRecord(tx)) {
+							winningCount++;
+						}
 					} else if(txType==OUTGOING_TX) {
 						addPayoutRecord(tx);
 					}
+				}
+				if(winningCount > 0) {
+					telegramBotService.sendNotification("Vast Pool just hit " + winningCount + " block");
 				}
 			} else {
 				log.warn("Curl to RPC failed.");
@@ -146,10 +163,26 @@ public class GatherDataTask {
 			pi.setUpdateTime(new Date());
 			pi.setFarmerOnline(farmerRepository.countByPoolMember(1));
 			pi.setBlockFound(winningRecordRepository.countByType(WinningRecord.INCOMING));
+			pi.setPoolTotalPoints(farmerRepository.totalPoints());
 			poolInformationRepository.save(pi);
 		} catch(Exception e) {
 			log.error(e.getMessage(), e);
 		}
+	}
+	
+	@Scheduled(cron = "0 0 0 * * *")
+	public void newDayUpdate() {
+		//create a history record for pool space.
+		Optional<PoolInformation> oPoolInfo = poolInformationRepository.findById(PoolInformation.ID);
+		PoolInformation pi = oPoolInfo.isPresent() ? oPoolInfo.get() : new PoolInformation();
+		PoolSpaceTime poolSpaceTime = new PoolSpaceTime();
+		poolSpaceTime.setDate(new Date());
+		poolSpaceTime.setPoolSpace(pi.getPoolSpace());
+		poolSpaceTime.setPoolSpaceRaw(pi.getPoolSpaceRaw());
+		poolSpaceTime.setPoolSpaceUnit(pi.getPoolSpaceUnit());
+		
+		pi.addPoolSpaceHistory(poolSpaceTime);
+		poolInformationRepository.save(pi);
 	}
 	
 	@Scheduled(cron = "0 0 */1 * * *")
@@ -190,6 +223,7 @@ public class GatherDataTask {
 	
 	@Scheduled(fixedDelay=3600000, initialDelay=5000)
 	public void cleanupPartial() {
-		log.info("Delete " + partialRepository.deleteOlderPartial(6) + " partial records.");
+		//Keep 30 hours of partial
+		log.info("Delete " + partialRepository.deleteOlderPartial(30) + " partial records.");
 	}
 }

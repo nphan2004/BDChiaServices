@@ -8,7 +8,7 @@ import com.bd.chia.jpa.Farmer;
 
 public interface FarmerRepository extends CrudRepository<Farmer, String>, FarmerRepositoryCustom {
 	Farmer findByLauncherId(String launcherId);
-	Farmer findByPayoutInstructions(String payoutInstructions);
-	long countByPoolMember(Integer poolMember);
+	List<Farmer> findByPayoutInstructions(String payoutInstructions);
+	long countByPoolMember(Integer poolMember);	
 	List<Farmer> findByPoolMember(Integer poolMember);
 }

@@ -15,6 +15,7 @@ public class Partial extends AutoId {
 	@Field(value = "launcher_id")
 	private String launcherId;
 	
+	@Indexed
 	private Long timestamp;
 	
     private Integer difficulty;

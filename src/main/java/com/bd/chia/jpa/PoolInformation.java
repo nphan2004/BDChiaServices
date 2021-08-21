@@ -2,7 +2,9 @@ package com.bd.chia.jpa;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +14,39 @@ import com.bd.chia.utils.Constants;
 @Document
 public class PoolInformation {
 	public static final String ID = "ONLY_ONE";
+	
+	public static class PoolSpaceTime {
+		private BigDecimal poolSpaceRaw;
+		private Double poolSpace;
+		private String poolSpaceUnit;
+		private Date date;
+		
+		public BigDecimal getPoolSpaceRaw() {
+			return poolSpaceRaw;
+		}
+		public void setPoolSpaceRaw(BigDecimal poolSpaceRaw) {
+			this.poolSpaceRaw = poolSpaceRaw;
+		}
+		public Double getPoolSpace() {
+			return poolSpace;
+		}
+		public void setPoolSpace(Double poolSpace) {
+			this.poolSpace = poolSpace;
+		}
+		public String getPoolSpaceUnit() {
+			return poolSpaceUnit;
+		}
+		public void setPoolSpaceUnit(String poolSpaceUnit) {
+			this.poolSpaceUnit = poolSpaceUnit;
+		}
+		public Date getDate() {
+			return date;
+		}
+		public void setDate(Date date) {
+			this.date = date;
+		}
+	}
+	
 	@Id
 	private String id;
 	
@@ -24,7 +59,9 @@ public class PoolInformation {
 	private BigDecimal poolSpaceRaw;
 	private Double poolSpace;
 	private String poolSpaceUnit;
+	private Long poolTotalPoints;
 	private Date updateTime;
+	private List<PoolSpaceTime> poolSpaceHistories;
 	
 	public PoolInformation() {
 		id = ID;
@@ -149,5 +186,29 @@ public class PoolInformation {
 
 	public void setPoolSpaceUnit(String poolSpaceUnit) {
 		this.poolSpaceUnit = poolSpaceUnit;
+	}
+
+	public Long getPoolTotalPoints() {
+		return poolTotalPoints;
+	}
+
+	public void setPoolTotalPoints(Long poolTotalPoints) {
+		this.poolTotalPoints = poolTotalPoints;
+	}
+
+	public List<PoolSpaceTime> getPoolSpaceHistories() {
+		return poolSpaceHistories;
+	}
+
+	public void setPoolSpaceHistories(List<PoolSpaceTime> poolSpaceHistories) {
+		this.poolSpaceHistories = poolSpaceHistories;
+	}
+	
+	public void addPoolSpaceHistory(PoolSpaceTime poolSpaceTime) {
+		if(poolSpaceHistories==null) {
+			poolSpaceHistories = new ArrayList<PoolSpaceTime>();
+		}
+		
+		poolSpaceHistories.add(poolSpaceTime);
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bd.chia.jpa.Partial;
 import com.bd.chia.repository.PartialRepository;
+import com.bd.chia.utils.HelperUtil;
 
 @RestController
 @RequestMapping(path = "/partial")
@@ -21,6 +22,6 @@ public class PartialController {
 	@RequestMapping(value="/{launcherId}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Partial> getPartials(@PathVariable String launcherId) {
-		return partialRepository.findByLauncherIdOrderByTimestampDesc(launcherId);
+		return partialRepository.findByLauncherIdOrderByTimestampDesc(HelperUtil.remove0x(launcherId));
 	}
 }

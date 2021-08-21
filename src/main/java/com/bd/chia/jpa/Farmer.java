@@ -17,6 +17,7 @@ public class Farmer {
 	@Field(value = "delay_time")
 	private Long delayTime;
 	
+	@Indexed
 	@Field(value = "is_pool_member")
 	private Integer poolMember;
 	
@@ -31,6 +32,7 @@ public class Farmer {
 	@Field(value = "payout_instructions")
 	private String payoutInstructions;
 	
+	private String name;
 	
 	public String getId() {
 		return id;
@@ -94,5 +96,13 @@ public class Farmer {
 
 	public void setPayoutInstructions(String payoutInstructions) {
 		this.payoutInstructions = payoutInstructions;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

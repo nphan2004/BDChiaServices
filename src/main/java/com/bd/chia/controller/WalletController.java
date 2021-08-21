@@ -3,7 +3,6 @@ package com.bd.chia.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +18,6 @@ public class WalletController {
 	
 	@GetMapping(path = "/winning")
 	public List<WinningRecord> getChiaWinning() {
-		return winningRecordRepository.findAllByType(WinningRecord.INCOMING);
+		return winningRecordRepository.findAllByTypeOrderByCreatedAtDesc(WinningRecord.INCOMING);
 	}
 }

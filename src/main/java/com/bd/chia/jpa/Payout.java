@@ -9,7 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 @CompoundIndexes({
-	@CompoundIndex(def = "{'launcherId':1, 'confirmedAtHeight':-1}", name = "launcherId_confirmedAtHeight")
+	@CompoundIndex(def = "{'launcherId':1, 'confirmedAtHeight':-1}", name = "launcherId_confirmedAtHeight"),
+	@CompoundIndex(def = "{'launcherId':1, 'payDate':-1}", name = "launcherId_payDate")
 })
 public class Payout extends AutoId {
 	@Indexed
